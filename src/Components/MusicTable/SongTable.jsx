@@ -1,28 +1,31 @@
 import React from "react";
+<div className="table-bordered"></div>
+
 
 const SongTable = (props) => {
   return (
     <div>
-      <table className="table table-dark">
+      <table className="table table-bordered table-dark">
         <thead>
           <tr>
-            <td>Title</td>
-            <td>Artist</td>
-            <td>Album</td>
-            <td>Genre</td>
-            <td>Release Date</td>
+          
+          <th scope="col">Title</th>
+          <th scope="col">Artist</th>
+          <th scope="col">Album</th>
+          <th scope="col">Genre</th>
+          <th scope="col">Release Date</th>
 
-            <td> </td>
+            
           </tr>
         </thead>
         <tbody>
           {props.table.map((e, i) => (
             <tr key={i}>
-              <td>{e.title}</td>
-              <td>{e.artist}</td>
-              <td>{e.album}</td>
-              <td>{e.genre}</td>
-              <td>{e.releaseDate}</td>
+              <th scope="row">{e.title}</th>
+              <th scope="row">{e.artist}</th>
+              <th scope="row">{e.album}</th>
+              <th scope="row">{e.genre}</th>
+              <th scope="row">{e.releaseDate}</th>
               <td>
               </td>
             </tr>
@@ -34,6 +37,9 @@ const SongTable = (props) => {
 };
 
 export default SongTable; 
+              
+              
+              
               
              
               
