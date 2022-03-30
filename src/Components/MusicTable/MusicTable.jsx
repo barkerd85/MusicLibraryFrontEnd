@@ -1,25 +1,30 @@
-import React from "react";
-<div className="table-bordered"></div>
+import axios from "axios";
+import { useEffect, useState } from "react";
+import SearchBar from "../SearchBar/SearchBar";
 
 
-const SongTable = (props) => {
+
+const MusicTable = (props) => {
+
+  
+
   return (
-    <div>
+    
+
+   
+    
       <table className="table table-bordered table-dark">
-        <thead>
+        <thead >
           <tr>
-          
           <th scope="col">Title</th>
           <th scope="col">Artist</th>
           <th scope="col">Album</th>
           <th scope="col">Genre</th>
           <th scope="col">Release Date</th>
-
-            
           </tr>
         </thead>
         <tbody>
-          {props.table.map((e, i) => (
+          {props.musicList.map((e, i) => (
             <tr key={i}>
               <th scope="row">{e.title}</th>
               <th scope="row">{e.artist}</th>
@@ -32,11 +37,15 @@ const SongTable = (props) => {
           ))}
         </tbody>
       </table>
-    </div>
+    
   );
 };
 
-export default SongTable; 
+export default MusicTable; 
+          
+
+            
+          
               
               
               

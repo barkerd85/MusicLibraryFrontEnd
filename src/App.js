@@ -1,44 +1,54 @@
 import axios from "axios";
-import React, { Component } from "react";
-import SongTable from "./Components/MusicTable/SongTable";
+import React, { useState, useEffect} from "react";
+import MusicTable from "./Components/MusicTable/MusicTable";
 import SearchBar from "./Components/SearchBar/SearchBar";
+import TitleBar from "./Components/TitleBar/TitleBar";
 
 
-class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      table: [],
-    };
-  }
 
-  componentDidMount() {
-    this.getTable();
-  }
+function App() {
+   const [musicList,setMusicList] = useState([]);
+   const [query, setQuery] = useState("");
 
-  async getTable() {
-    try {
-      let responseTable = await axios.get("http://www.devcodecampmusiclibrary.com/api/music");
-      this.setState({
-        table: responseTable.data,
-      });
-      console.log(responseTable);
-    } catch (ex) {
-      console.log("Error in API call!");
+
+  async function getTable() {
+   try{
+    let response = await axios.get('http://www.devcodecampmusiclibrary.com/api/music');
+      
+     setMusicList(response.data); 
+      
+   }catch (ex) {
+      console.log("API call failed");
     }
   }
+  
+ useEffect(()=>{
+   getTable();
+ },[]);
 
+ function search(rows) {
+   const columns = rows[0] && Object.keys(rows[0]);
+   return rows.filter((row) =>
+     columns.some(
+       (column) =>
+         row[column].toString().toLowerCase().indexOf(query.toLowerCase()) > -1
+     )
+   );
+ }
    
-
-  render() {
-    return (
+   return (
       <div>
-        <SearchBar />
-        <SongTable table={this.state.table} />
+         <TitleBar/>
+         <SearchBar query={query} setQuery={setQuery} />
+        <MusicTable  musicList={search(musicList)} />
        </div>
     );
-  }
 }
+   
+
+  
+
 
 export default App; 
       
+        
