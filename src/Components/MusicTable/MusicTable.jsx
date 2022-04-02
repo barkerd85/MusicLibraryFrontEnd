@@ -1,9 +1,3 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import SearchBar from "../SearchBar/SearchBar";
-
-
-
 const MusicTable = (props) => {
 
   
@@ -26,14 +20,13 @@ const MusicTable = (props) => {
         <tbody>
           {props.musicList.map((e, i) => (
             <tr key={i}>
-              <th scope="row">{e.title}</th>
-              <th scope="row">{e.artist}</th>
-              <th scope="row">{e.album}</th>
-              <th scope="row">{e.genre}</th>
-              <th scope="row">{e.releaseDate}</th>
-              <td>
-              </td>
-            </tr>
+              <td  >{e.title}</td>
+              <td  >{e.artist}</td>
+              <td  >{e.album}</td>
+              <td  >{e.genre}</td>
+              <td  >{e.releaseDate}</td>
+              <td><button onClick={()=>{props.deleteSong(e.id)}}>Delete Song</button></td>
+              </tr>
           ))}
         </tbody>
       </table>
@@ -42,6 +35,14 @@ const MusicTable = (props) => {
 };
 
 export default MusicTable; 
+              
+            
+              
+
+
+
+
+
           
 
             

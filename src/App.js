@@ -1,19 +1,29 @@
-import axios from "axios";
 import React, { useState, useEffect} from "react";
-import MusicTable from "./Components/MusicTable/MusicTable";
 import SearchBar from "./Components/SearchBar/SearchBar";
 import TitleBar from "./Components/TitleBar/TitleBar";
+import AddSong from "./Components/AddSong/AddSong";
+import MusicTable from "./Components/MusicTable/MusicTable";
+import axios from "axios";
+
 
 
 
 function App() {
    const [musicList,setMusicList] = useState([]);
    const [query, setQuery] = useState("");
+   const [title, setTitle] = useState("");
+   const [album, setAlbum] = useState("");
+   const [artist, setArtist] = useState("");
+   const [genre, setGenre] = useState("");
+   const [releaseDate, setReleaseDate] = useState("");
+   
+
+
 
 
   async function getTable() {
    try{
-    let response = await axios.get('http://www.devcodecampmusiclibrary.com/api/music');
+    let response = await axios.get("http://localhost:5000/api/songs");
       
      setMusicList(response.data); 
       
@@ -22,6 +32,26 @@ function App() {
     }
   }
   
+  let handleSubmit = async (e) => {
+    e.preventDefault();
+    const addedSong = { 
+      title:title,
+      album:album,
+      artist:artist,
+      genre:genre,
+      releaseDate:releaseDate }
+
+    fetch("http://localhost:5000/api/songs", {
+      method:'POST',
+      headers:{ "Content-Type": "application/json"},
+      body: JSON.stringify(addedSong)
+  }).then((res) => {
+    if (res.status == 201) {alert('song added')}
+  }).then(()=>{
+    getTable()
+  })
+};
+
  useEffect(()=>{
    getTable();
  },[]);
@@ -35,20 +65,54 @@ function App() {
      )
    );
  }
+
+const deleteSong =(id) => {
+  fetch(`http://localhost:5000/api/songs/${id}`, {
+      method:'DELETE',
+      headers:{ "Content-Type": "application/json"},
+      body:""
+  })
+  .then((res) => {
+    if (res.status == 201) {alert('song deleted')}
+  }).then(()=>{
+    getTable()
+  })
+};
+
+
+
    
    return (
       <div>
+        
          <TitleBar/>
-         <SearchBar query={query} setQuery={setQuery} />
-        <MusicTable  musicList={search(musicList)} />
-       </div>
-    );
+         <AddSong
+          title={title}
+          album={album}
+          artist={artist}
+          genre={genre}
+          releaseDate={releaseDate}
+          setTitle={setTitle}
+          setAlbum={setAlbum}
+          setArtist={setArtist}
+          setGenre={setGenre}
+          setReleaseDate={setReleaseDate}
+          handleSubmit={handleSubmit}/>
+        <SearchBar query={query} setQuery={setQuery} />
+        <MusicTable deleteSong={deleteSong}  musicList={search(musicList)} />       
+        </div> 
+      );
 }
    
-
+export default App;   
+        
+       
+     
+                
+              
   
 
 
-export default App; 
+
       
         
